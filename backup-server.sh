@@ -10,8 +10,9 @@ if [ $# -lt 1 ]; then
 else
   SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
   BASE_DIR=$( sed 's|/scripts||g' <<< $SCRIPTS_DIR )
-  TODAY=$(date +"%Y%m%d_%k")
+  TODAY=$(date +"%Y%m%d-%H.%M.%s")
   SERVER_NAME=$1
+  CURRENT_SERVER=$( cat "$BASE_DIR/$SERVER_NAME/current_server" )
 
   echo "Switching to server directory"
   cd "$BASE_DIR/$SERVER_NAME"
@@ -24,7 +25,7 @@ else
     echo "A backup for today has already been made"
   else
     echo "Creating archive of current world"
-    tar -cvzf "$BASE_DIR/$SERVER_NAME/backups/$TODAY-$SERVER_NAME.tar.gz" world
+    tar -cvzf "$BASE_DIR/$SERVER_NAME/backups/$TODAY.$CURRENT_SERVER-$SERVER_NAME.tar.gz" world
     echo "Done creating world save"
   fi
 fi

@@ -52,7 +52,7 @@ else
     
     # Create new launch.sh file
     echo "#!/bin/bash" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
-    echo "java -server -Xmx2048M -Xms2048M -jar minecraft_server.$CURRENT_SERVER.jar" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
+    echo "java -server -Xmx3096M -Xms3096M -jar minecraft_server.$CURRENT_SERVER.jar" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
     chmod +x "$BASE_DIR/$SERVER_NAME/launch.sh"
 
     if [ ! -e "$BASE_DIR/$SERVER_NAME/eula.txt" ]; then
@@ -65,7 +65,7 @@ else
       sed -i 's/pvp=true/pvp=false/g' "$BASE_DIR/$SERVER_NAME/server.properties"
       sed -i "s/server-port=25565/server-port=$SERVER_PORT/g" "$BASE_DIR/$SERVER_NAME/server.properties"
       sed -i 's/max-players=20/max-players=10/g' "$BASE_DIR/$SERVER_NAME/server.properties"
-      sed -i 's/motd=A Minecraft Server/motd=JC''s Minecraft Server/g' "$BASE_DIR/$SERVER_NAME/server.properties"
+      sed -i "s/motd=.*/motd=JC's $CURRENT_SERVER $SERVER_TYPE Server/g" "$BASE_DIR/$SERVER_NAME/server.properties"
 
       # Copying in datapack
       $SCRIPTS_DIR/all-start.sh
