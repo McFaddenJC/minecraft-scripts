@@ -9,7 +9,7 @@ if [ $# -lt 1 ]; then
   echo ""
 else
   SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-  BASE_DIR=$( sed 's|/scripts||g' <<< $SCRIPTS_DIR )
+  BASE_DIR=$( sed 's|/minecraft-scripts||g' <<< $SCRIPTS_DIR )
   TODAY=$(date +"%Y%m%d-%H.%M.%s")
   SERVER_NAME=$1
   CURRENT_SERVER=$( cat "$BASE_DIR/$SERVER_NAME/current_server" )

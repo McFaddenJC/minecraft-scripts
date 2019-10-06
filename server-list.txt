@@ -1,7 +1,5 @@
+mc25003
 mc25005
 mc25006
-mc25007
-mc25008
-mc25010
 mc25011
-testing
+diamond-sword

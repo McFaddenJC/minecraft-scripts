@@ -9,7 +9,7 @@ if [ $# -lt 3 ]; then
 else
   # Set any environment variables here
   SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-  BASE_DIR=$( sed 's|/scripts||g' <<< $SCRIPTS_DIR )
+  BASE_DIR=$( sed 's|/minecraft-scripts||g' <<< $SCRIPTS_DIR )
   SERVER_TYPE=$1
   SERVER_NAME=$2
   SERVER_PORT=$3

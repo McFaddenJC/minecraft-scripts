@@ -12,7 +12,7 @@ if [ $# -lt 2 ]; then
 else
   # Set all script variables
   SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-  BASE_DIR=$( sed 's|/scripts||g' <<< $SCRIPTS_DIR )
+  BASE_DIR=$( sed 's|/minecraft-scripts||g' <<< $SCRIPTS_DIR )
   SERVER_TYPE=$1
   SERVER_NAME=$2
 

@@ -1,6 +1,5 @@
 #!/bin/bash
-
-if [ -z "$1" ]; then
+if [ $# -lt 1 ]; then
   echo "";
   echo "You must specify a server!";
   echo "";

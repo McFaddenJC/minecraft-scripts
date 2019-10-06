@@ -12,7 +12,7 @@ echo "SCRIPTS_DIR = $SCRIPTS_DIR"
 #cd $DIR
 #cd ..
 #BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-BASE_DIR=$( sed 's|/scripts||g' <<< $SCRIPTS_DIR )
+BASE_DIR=$( sed 's|/minecraft-scripts||g' <<< $SCRIPTS_DIR )
 echo "BASE_DIR = $BASE_DIR"
 
 $( cp ${SCRIPTS_DIR}/datapacks/* ${BASE_DIR}/testing/world/datapacks/ )
