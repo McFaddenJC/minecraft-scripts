@@ -43,7 +43,7 @@ else
     
     # Create new launch.sh file
     echo "#!/bin/bash" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
-    echo "java -server -Xmx3096M -Xms3096M -jar minecraft_server.$NEW_SERVER.jar" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
+    echo "$BASE_DIR/java/bin/java -server -Xmx3096M -Xms3096M -jar minecraft_server.$NEW_SERVER.jar" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
     chmod +x "$BASE_DIR/$SERVER_NAME/launch.sh"
 
     # Updating the server name with version running
