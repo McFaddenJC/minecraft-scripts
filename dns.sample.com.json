@@ -1,0 +1,18 @@
+{
+  "Comment": "<Replace with your own message>",
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "<your dns entry>.",
+        "Type": "A",
+        "TTL": 300,
+        "ResourceRecords": [
+          {
+            "Value": "[value will be updated automatically]"
+          }
+        ]
+      }
+    }
+  ]
+}
