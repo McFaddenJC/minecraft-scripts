@@ -11,7 +11,7 @@ if [ $# -lt 3 ]; then
   echo ""
   exit 1;
 fi
-  
+
 # Set all script variables
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BASE_DIR=$( sed 's|/minecraft-scripts||g' <<< $SCRIPTS_DIR )
@@ -27,7 +27,7 @@ if [ $SERVER_TYPE != "snapshot" || $SERVER_TYPE != "release" ]; then
   exit 1;
 fi
 
-# Makeu sure gamemode is valid
+# Make sure gamemode is valid
 if [ $GAME_MODE != "survival" || $GAME_MODE != "creative" || $GAME_MODE != "adventure" ]; then
   echo "Inavlid gamemode"
   echo "$USAGE"
@@ -59,7 +59,7 @@ if [ ! "$CURRENT_SERVER" == "$NEW_SERVER" ]; then
   if [ -e "$BASE_DIR/$SERVER_NAME/launch.sh" ]; then
     rm "$BASE_DIR/$SERVER_NAME/launch.sh"
   fi
-    
+
   # Create new launch.sh file
   echo "#!/bin/bash" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
   echo "$BASE_DIR/java/bin/java -server -Xmx3096M -Xms3096M -jar minecraft_server.$NEW_SERVER.jar" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
