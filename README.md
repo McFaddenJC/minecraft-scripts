@@ -3,11 +3,11 @@ These scripts will allow you to host your own Minecraft (Java Edition) server in
 Before you get started, you will need to install a few prerequisites.
 ## Install JQ
 Using your platform's package manager, install JQ.
-For Redhat:
+* For Redhat:
 ```bash
 sudo yum install jq -y
 ```
-For Debian:
+* For Debian:
 ```bash
 sudo apt install jq -y
 ```
