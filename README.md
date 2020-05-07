@@ -4,16 +4,18 @@ These scripts will allow you to host your own Minecraft &trade; (Java Edition) s
 Before you get started, you will need to install a few prerequisites...
 
 #### Install "jq" and "screen" packages
-Using your platform's package manager, install JQ and screen.
+Using your platform's package manager, install jq, screen and git.
 ```bash
 # For Redhat:
 $ sudo yum install jq -y
 $ sudo yum install screen -y
+$ sudo yum install git -y
 ```
 ```bash
 # For Debian:
 $ sudo apt install jq -y
 $ sudo apt install screen -y
+$ sudo apt install git -y
 ```
 #### Install Java Development Kit (64-bit JDK)
 Minecraft &trade; requires Java to run. By selecting a 64-bit Java, you can configure the server to use more than 1024M of memory.
