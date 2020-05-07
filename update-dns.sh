@@ -4,7 +4,7 @@ if [ $# -ne 2 ]; then
   echo "Incorrect number of arguments given!"
   echo "$0 <hosted zone id> <dns entry>"
   echo ""
-  exit 1;
+  exit 1
 fi
 
 # Set the base of the sripts directory
@@ -33,7 +33,7 @@ if [ "$CURRENT_IP" != "$NEW_IP" ]; then
   sed -i 's|"Value":.*|"Value": "'$NEW_IP'"|g' $SCRIPTS_DIR/$DNS_ENTRY.json
 
   # Update the DNS Record Set with the new IP
-  aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch file://$SCRIPTS_DIR/$DNS_ENTRY.json 
+  aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch file://$SCRIPTS_DIR/$DNS_ENTRY.json
 else
   echo "The IP addresses are the same and no change is needed"
 fi

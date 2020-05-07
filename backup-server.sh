@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  Script to backup minecraft worlds twice daily
+#  Script to backup minecraft worlds called via cron or other scripts
 #
 
 if [ $# -lt 1 ]; then
