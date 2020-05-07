@@ -6,9 +6,9 @@ if [ $# -lt 4 ]; then
   echo "Invalid number of arguments given"
   echo "$USAGE"
   echo ""
-  exit 1;
+  exit 1
 fi
-  
+
 # Set any environment variables here
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BASE_DIR=$( sed 's|/minecraft-scripts||g' <<< $SCRIPTS_DIR )
@@ -16,13 +16,20 @@ SERVER_TYPE=$1
 SERVER_NAME=$2
 SERVER_PORT=$3
 GAME_MODE=$4
+DIFFICULTY="normal" # Set what difficulty you wish to play in
+PVP="false" # Set whether or not you wish to allow pvp on the server
+MAX_PLAYERS="10" # Set the number of players you want to cap the server at
+JAVA_MEM="2048" # Memory in MB that you wish to alot to the JVM to run the server
+# You can change MOTD to be any name prefix you want displayed from the server
+#   status page in the game's client under multiplayer
+MOTD="JC's"
 
 # Make sure SERVER_TYPE is valid
 if [ $SERVER_TYPE != "snapshot" || $SERVER_TYPE != "release" ]; then
   echo "Invalid server type given"
   echo "$USAGE"
   echo ""
-  exit 1;
+  exit 1
 fi
 
 # Make sure the game mode is valid
@@ -30,11 +37,11 @@ if [ $GAME_MODE != "survival" || $GAME_MODE != "adventure" || $GAME_MODE != "cre
   echo "Invalid game mode!"
   echo "$USAGE"
   echo ""
-  exit 1;
+  exit 1
 fi
 
 # Add server to the list of servers to start/stop
-$SCRIPTS_DIR/add-server.sh $SERVER_NAME 
+$SCRIPTS_DIR/add-server.sh $SERVER_NAME
 
 # Check to see if the folder/directory exists
 if [ -e "$BASE_DIR/$SERVER_NAME" ]; then
@@ -62,40 +69,33 @@ else
 
   # Get the latest version
   CURRENT_SERVER=$( cat "$BASE_DIR/$SERVER_NAME/current_server" )
-  
+
   # Create the launch script using the latest release
   #   Remove the current launch script first
   if [ -e "$BASE_DIR/$SERVER_NAME/launch.sh" ]; then
     rm "$BASE_DIR/$SERVER_NAME/launch.sh"
   fi
-    
+
   # Create new launch.sh file
   echo "#!/bin/bash" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
-  echo "$BASE_DIR/java/bin/java -server -Xmx3096M -Xms3096M -jar minecraft_server.$CURRENT_SERVER.jar" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
+  echo "java -server -Xmx${JAVA_MEM}M -Xms${JAVA_MEM}M -jar minecraft_server.$CURRENT_SERVER.jar nogui" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
   chmod +x "$BASE_DIR/$SERVER_NAME/launch.sh"
 
   if [ ! -e "$BASE_DIR/$SERVER_NAME/eula.txt" ]; then
     echo "Starting server to generate config files"
     $BASE_DIR/$SERVER_NAME/launch.sh
-      
-    # Set config file properties via user prompt
-    sed -i "s/eula=false/eula=true/g" "$BASE_DIR/$SERVER_NAME/eula.txt"
-    sed -i "s/difficulty=easy/difficulty=normal/g" "$BASE_DIR/$SERVER_NAME/server.properties"
-    sed -i "s/gamemode=.*/gamemode=$GAME_MODE/g" "$BASE_DIR/$SERVER_NAME/server.properties"
-    sed -i "s/pvp=true/pvp=false/g" "$BASE_DIR/$SERVER_NAME/server.properties"
-    sed -i "s/server-port=25565/server-port=$SERVER_PORT/g" "$BASE_DIR/$SERVER_NAME/server.properties"
-    sed -i "s/max-players=20/max-players=10/g" "$BASE_DIR/$SERVER_NAME/server.properties"
-    sed -i "s/motd=.*/motd=JC's $CURRENT_SERVER $SERVER_TYPE $GAME_MODE Server/g" "$BASE_DIR/$SERVER_NAME/server.properties"
 
-    # Copying in datapack
+    # Set config file properties via user prompt
+    sed -i "s/eula=.*/eula=true/g" "$BASE_DIR/$SERVER_NAME/eula.txt" # Needs to be set to true to allow server to start
+    sed -i "s/difficulty=.*/difficulty=$DIFFICULTY/g" "$BASE_DIR/$SERVER_NAME/server.properties"
+    sed -i "s/gamemode=.*/gamemode=$GAME_MODE/g" "$BASE_DIR/$SERVER_NAME/server.properties"
+    sed -i "s/pvp=.*/pvp=$PVP/g" "$BASE_DIR/$SERVER_NAME/server.properties"
+    sed -i "s/server-port=.*/server-port=$SERVER_PORT/g" "$BASE_DIR/$SERVER_NAME/server.properties"
+    sed -i "s/max-players=.*/max-players=$MAX_PLAYERS/g" "$BASE_DIR/$SERVER_NAME/server.properties"
+    sed -i "s/motd=.*/motd=$MOTD $CURRENT_SERVER $SERVER_TYPE $GAME_MODE Server/g" "$BASE_DIR/$SERVER_NAME/server.properties"
+
+    # Start server with necessary property file updates
     $SCRIPTS_DIR/all-start.sh
-    while [ ! -e "$BASE_DIR/$SERVER_NAME/world/datapacks" ]
-    do
-      sleep 2
-    done
-    $( cp ${BASE_DIR}/datapacks/* ${BASE_DIR}/${SERVER_NAME}/world/datapacks/ )
-    sleep 2
-    screen -p 0 -S ${SERVER_NAME} -X eval "stuff \"reload\"\015"
   else
     echo "Server already configured"
   fi

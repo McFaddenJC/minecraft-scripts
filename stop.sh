@@ -1,44 +1,36 @@
 #!/bin/bash
 if [ $# -lt 1 ]; then
-  echo "";
-  echo "You must specify a server!";
-  echo "";
-  exit 0;
+  echo ""
+  echo "You must specify a server!"
+  echo "Usage: $0 <server_name>"
+  echo ""
+  exit 1
 fi
 
-# Loop through the server names and start them up here
-if screen -list | grep -q "$1"; then
-  screen -p 0 -S $1 -X eval "stuff \"say Server will be shutting down for updates in 30 seconds.\"\015"
-  sleep 20
-  screen -p 0 -S $1 -X eval "stuff \"say Server will be shutting down in 10 seconds.\"\015"
-  sleep 1
-  screen -p 0 -S $1 -X eval "stuff \"say Server will be shutting down in 9 seconds.\"\015"
-  sleep 1
-  screen -p 0 -S $1 -X eval "stuff \"say Server will be shutting down in 8 seconds.\"\015"
-  sleep 1
-  screen -p 0 -S $1 -X eval "stuff \"say Server will be shutting down in 7 seconds.\"\015"
-  sleep 1
-  screen -p 0 -S $1 -X eval "stuff \"say Server will be shutting down in 6 seconds.\"\015"
-  sleep 1
-  screen -p 0 -S $1 -X eval "stuff \"say Server will be shutting down in 5 seconds.\"\015"
-  sleep 1
-  screen -p 0 -S $1 -X eval "stuff \"say Server will be shutting down in 4 seconds.\"\015"
-  sleep 1
-  screen -p 0 -S $1 -X eval "stuff \"say Server will be shutting down in 3 seconds.\"\015"
-  sleep 1
-  screen -p 0 -S $1 -X eval "stuff \"say Server will be shutting down in 2 seconds.\"\015"
-  sleep 1
-  screen -p 0 -S $1 -X eval "stuff \"say Server will be shutting down in 1 seconds.\"\015"
-  sleep 1
-  screen -p 0 -S $1 -X eval "stuff \"stop\"\015"
+# Set variables to be used throughout script
+SERVER_NAME=$1
+WARNING_TIME=10
+
+# Stop the server if it's not already stopped and give players
+#   a chance to log out
+if screen -list | grep -q "$SERVER_NAME"; then
+  screen -p 0 -S $SERVER_NAME -X eval \
+    "stuff \"say Stopping server for updates in ${WARNING_TIME} seconds.\"\015"
+  while (($WARNING_TIME > 0));
+  do
+    if (($WARNING_TIME <= 10)); then
+      screen -p 0 -S $SERVER_NAME -X eval \
+        "stuff \"say Stopping server for updates in ${WARNING_TIME} seconds.\"\015"
+    fi
+    WARNING_TIME=$((${WARNING_TIME} - 1))
+    sleep 1
+  done
+  screen -p 0 -S $SERVER_NAME -X eval "stuff \"stop\"\015"
   echo ""
-  echo "$1 server is shutting down..."
+  echo "$SERVER_NAME server is shutting down..."
   echo ""
-  screen -S $1 -p 0 -X quit
+  screen -S $SERVER_NAME -p 0 -X quit
   echo ""
 else
-  echo "$1 is already down!"
+  echo "$SERVER_NAME is already down!"
 fi
-
-
-

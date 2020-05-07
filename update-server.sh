@@ -1,7 +1,5 @@
 #!/bin/bash
-#
 # Script to update a minecraft world
-#
 
 # Start by checking for the correct number of parameters
 USAGE="Usage: $0 <server_type> <server_name> <gamemode>"
@@ -9,30 +7,34 @@ if [ $# -lt 3 ]; then
   echo "Invalid number of arguments given"
   echo "$USAGE"
   echo ""
-  exit 1;
+  exit 1
 fi
-  
+
 # Set all script variables
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BASE_DIR=$( sed 's|/minecraft-scripts||g' <<< $SCRIPTS_DIR )
 SERVER_TYPE=$1
 SERVER_NAME=$2
 GAME_MODE=$3
+JAVA_MEM="2048" # Memory in MB that you wish to alot to the JVM to run the server
+# You can change MOTD to be any name prefix you want displayed from the server
+#   status page in the game's client under multiplayer
+MOTD="JC's"
 
 # Make sure SERVER_TYPE is valid
 if [ $SERVER_TYPE != "snapshot" || $SERVER_TYPE != "release" ]; then
   echo "Invalid server type given"
   echo "$USAGE"
   echo ""
-  exit 1;
+  exit 1
 fi
 
-# Makeu sure gamemode is valid
+# Make sure GAME_MODE is valid
 if [ $GAME_MODE != "survival" || $GAME_MODE != "creative" || $GAME_MODE != "adventure" ]; then
   echo "Inavlid gamemode"
   echo "$USAGE"
   echo ""
-  exit 1;
+  exit 1
 fi
 
 if [ -e "$BASE_DIR/$SERVER_NAME/current_server" ]; then
@@ -47,7 +49,6 @@ $SCRIPTS_DIR/get-server.sh $SERVER_TYPE $SERVER_NAME
 NEW_SERVER=$( cat "$BASE_DIR/$SERVER_NAME/current_server" )
 
 if [ ! "$CURRENT_SERVER" == "$NEW_SERVER" ]; then
-
   # Stop the current running world
   $SCRIPTS_DIR/stop.sh $SERVER_NAME
 
@@ -59,14 +60,14 @@ if [ ! "$CURRENT_SERVER" == "$NEW_SERVER" ]; then
   if [ -e "$BASE_DIR/$SERVER_NAME/launch.sh" ]; then
     rm "$BASE_DIR/$SERVER_NAME/launch.sh"
   fi
-    
+
   # Create new launch.sh file
   echo "#!/bin/bash" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
-  echo "$BASE_DIR/java/bin/java -server -Xmx3096M -Xms3096M -jar minecraft_server.$NEW_SERVER.jar" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
+  echo "java -server -Xmx${JAVA_MEM}M -Xms${JAVA_MEM}M -jar minecraft_server.$NEW_SERVER.jar nogui" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
   chmod +x "$BASE_DIR/$SERVER_NAME/launch.sh"
 
   # Updating the server name with version running
-  sed -i "s|motd=.*|motd=JC's $NEW_SERVER $SERVER_TYPE $GAME_MODE server|g" "$BASE_DIR/$SERVER_NAME/server.properties"
+  sed -i "s|motd=.*|motd=$MOTD $NEW_SERVER $SERVER_TYPE $GAME_MODE server|g" "$BASE_DIR/$SERVER_NAME/server.properties"
   sed -i "s|gamemode=.*|gamemode=$GAME_MODE|g" "$BASE_DIR/$SERVER_NAME/server.properties"
 
   # Start the world back up using the new version

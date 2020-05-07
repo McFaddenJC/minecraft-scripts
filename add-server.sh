@@ -7,7 +7,7 @@ if [ $# -lt 1 ]; then
   echo ""
   echo "Usage: $0 <server_name>"
   echo ""
-  exit 0
+  exit 1
 else
   # Set all script variables
   SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -22,7 +22,7 @@ else
       exit 0
     fi
   done < "$FILE"
-  
+
   echo "Adding $SERVER to server list"
   echo $SERVER >> $FILE
 fi
