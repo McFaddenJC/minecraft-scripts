@@ -22,7 +22,7 @@ JAVA_MEM="2048" # Memory in MB that you wish to alot to the JVM to run the serve
 MOTD="JC's"
 
 # Make sure SERVER_TYPE is valid
-if [ $SERVER_TYPE != "snapshot" || $SERVER_TYPE != "release" ]; then
+if (("$SERVER_TYPE" != "snapshot" || "$SERVER_TYPE" != "release" )); then
   echo "Invalid server type given"
   echo "$USAGE"
   echo ""
@@ -30,7 +30,7 @@ if [ $SERVER_TYPE != "snapshot" || $SERVER_TYPE != "release" ]; then
 fi
 
 # Make sure GAME_MODE is valid
-if [ $GAME_MODE != "survival" || $GAME_MODE != "creative" || $GAME_MODE != "adventure" ]; then
+if (( $GAME_MODE != "survival" || $GAME_MODE != "creative" || $GAME_MODE != "adventure" )); then
   echo "Inavlid gamemode"
   echo "$USAGE"
   echo ""
