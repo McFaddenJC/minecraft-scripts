@@ -46,8 +46,8 @@ $ screen -list
 # Attach to a listed screen. This allows you to send commands to the server.
 $ screen -x <screen_name>
 
-# Detach from current screen (allows it to keep running)
-$ CTRL-A + d
+# Detach from current screen by holding control, pressing a, releasing both, and then pressing d (allows it to keep running)
+$ CTRL-a + d
 ```
 
 #### Setting up CRON to keep your server updated
@@ -83,7 +83,7 @@ Add the following to your new file:
 #!/bin/bash
 
 echo "Starting all minecraft servers"
-su - <your ssh username> -c "<your install path>/minecraft-scripts/all-start.sh"
+su - <your ssh username> -c "/<your install path>/minecraft-scripts/all-start.sh"
 ```
 Now you need to assign your script to a runlevel. In this case, I have added the script to runlevel 5. To do this, simply create a symbolic link (symlink) like this:
 
