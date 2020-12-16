@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get server type and location
-USAGE="Usage: $0 <release/snapshot> <server_name> <port#> <gamemode>"
+USAGE="Usage: $0 <release/snapshot> <server_name> <port#> <gamemode> [version]"
 if [ $# -lt 4 ]; then
   echo "Invalid number of arguments given"
   echo "$USAGE"
@@ -16,10 +16,11 @@ SERVER_TYPE=$1
 SERVER_NAME=$2
 SERVER_PORT=$3
 GAME_MODE=$4
+SERVER_VERSION=$5
 DIFFICULTY="normal" # Set what difficulty you wish to play in
-PVP="false" # Set whether or not you wish to allow pvp on the server
+PVP="true" # Set whether or not you wish to allow pvp on the server
 MAX_PLAYERS="10" # Set the number of players you want to cap the server at
-JAVA_MEM="2048" # Memory in MB that you wish to alot to the JVM to run the server
+JAVA_MEM="5" # Memory in GB that you wish to alot to the JVM to run the server
 # You can change MOTD to be any name prefix you want displayed from the server
 #   status page in the game's client under multiplayer
 MOTD="JC's"
@@ -49,8 +50,12 @@ if [ -e "$BASE_DIR/$SERVER_NAME" ]; then
   # Copy in the server icon to make sure it's up to date
   echo "Copying server-icon to server"
   cp $SCRIPTS_DIR/server-icon.png $BASE_DIR/$SERVER_NAME
-  echo "Downloading latest $SERVER_TYPE server"
-  $SCRIPTS_DIR/get-server.sh $SERVER_TYPE $SERVER_NAME
+  echo "Downloading $SERVER_TYPE server"
+  if [ -z "$SERVER_VERSION" ]; then
+    $SCRIPTS_DIR/get-server.sh $SERVER_TYPE $SERVER_NAME
+  else
+    $SCRIPTS_DIR/get-server.sh $SERVER_TYPE $SERVER_NAME $SERVER_VERSION
+  fi
 else
   echo "The server does not exist yet"
   # Create the directory and copy in the server icon
@@ -59,9 +64,13 @@ else
   echo "Copying server-icon to server"
   cp "$SCRIPTS_DIR/server-icon.png" "$BASE_DIR/$SERVER_NAME"
 
-  # Download the latest release/snapshot to the server structure
-  echo "Downloading latest $SERVER_TYPE server"
-  $SCRIPTS_DIR/get-server.sh $SERVER_TYPE $SERVER_NAME
+  # Download the release/snapshot to the server structure
+  echo "Downloading $SERVER_TYPE server"
+  if [ -z "$SERVER_VERSION" ]; then
+    $SCRIPTS_DIR/get-server.sh $SERVER_TYPE $SERVER_NAME
+  else
+    $SCRIPTS_DIR/get-server.sh $SERVER_TYPE $SERVER_NAME $SERVER_VERSION
+  fi
 
   # Start the new server to generate configuration files
   echo "Navigating to the new server"
@@ -70,7 +79,7 @@ else
   # Get the latest version
   CURRENT_SERVER=$( cat "$BASE_DIR/$SERVER_NAME/current_server" )
 
-  # Create the launch script using the latest release
+  # Create the launch script
   #   Remove the current launch script first
   if [ -e "$BASE_DIR/$SERVER_NAME/launch.sh" ]; then
     rm "$BASE_DIR/$SERVER_NAME/launch.sh"
@@ -78,7 +87,7 @@ else
 
   # Create new launch.sh file
   echo "#!/bin/bash" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
-  echo "java -server -Xmx${JAVA_MEM}M -Xms${JAVA_MEM}M -jar minecraft_server.$CURRENT_SERVER.jar nogui" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
+  echo "/data/1/java/bin/java -server -Xmx${JAVA_MEM}G -Xms${JAVA_MEM}G -jar minecraft_server.$CURRENT_SERVER.jar nogui" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
   chmod +x "$BASE_DIR/$SERVER_NAME/launch.sh"
 
   if [ ! -e "$BASE_DIR/$SERVER_NAME/eula.txt" ]; then

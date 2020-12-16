@@ -3,7 +3,7 @@
 
 # Make sure that the user passes in the correct number of parameters
 if [ $# -lt 2 ]; then
-  echo "Usage: $0 <release/snapshot> <server_name>"
+  echo "Usage: $0 <release/snapshot> <server_name> [version]"
   exit 1;
 fi
 
@@ -12,19 +12,24 @@ SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BASE_DIR=$( sed 's|/minecraft-scripts||g' <<< $SCRIPTS_DIR )
 SERVER_TYPE=$1
 SERVER_NAME=$2
+SERVER_VERSION=$3
 SERVER_MANIFEST=$( curl https://launchermeta.mojang.com/mc/game/version_manifest.json )
 
 # Use the server type to download the correct version of the server
 case $SERVER_TYPE in
   "release")
-    echo "fetching latest release"
-    SERVER_VERSION=$( echo $SERVER_MANIFEST|jq -r ".latest|.release" )
+    echo "fetching release"
+    if [ -z "$SERVER_VERSION" ]; then
+        SERVER_VERSION=$( echo $SERVER_MANIFEST|jq -r ".latest|.release" )
+    fi
     SERVER_JSON=$( echo $SERVER_MANIFEST|jq -r '.versions[]|select(.id=="'"$SERVER_VERSION"'")|.url' )
     SERVER_DOWNLOAD=$( curl $SERVER_JSON | jq -r '.downloads|.server|.url' )
   ;;
   "snapshot")
-    echo "fetching latest snapshot"
-    SERVER_VERSION=$( echo $SERVER_MANIFEST|jq -r ".latest|.snapshot" )
+    echo "fetching snapshot"
+    if [ -z "$SERVER_VERSION" ]; then
+        SERVER_VERSION=$( echo $SERVER_MANIFEST|jq -r ".latest|.snapshot" )
+    fi
     SERVER_JSON=$( echo $SERVER_MANIFEST|jq -r '.versions[]|select(.id=="'"$SERVER_VERSION"'")|.url' )
     SERVER_DOWNLOAD=$( curl $SERVER_JSON | jq -r '.downloads|.server|.url' )
   ;;

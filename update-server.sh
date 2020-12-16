@@ -16,7 +16,7 @@ BASE_DIR=$( sed 's|/minecraft-scripts||g' <<< $SCRIPTS_DIR )
 SERVER_TYPE=$1
 SERVER_NAME=$2
 GAME_MODE=$3
-JAVA_MEM="2048" # Memory in MB that you wish to alot to the JVM to run the server
+JAVA_MEM="5" # Memory in GB that you wish to alot to the JVM to run the server
 # You can change MOTD to be any name prefix you want displayed from the server
 #   status page in the game's client under multiplayer
 MOTD="JC's"
@@ -63,7 +63,7 @@ if [ ! "$CURRENT_SERVER" == "$NEW_SERVER" ]; then
 
   # Create new launch.sh file
   echo "#!/bin/bash" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
-  echo "java -server -Xmx${JAVA_MEM}M -Xms${JAVA_MEM}M -jar minecraft_server.$NEW_SERVER.jar nogui" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
+  echo "/data/1/java/bin/java -server -Xmx${JAVA_MEM}G -Xms${JAVA_MEM}G -jar minecraft_server.$NEW_SERVER.jar nogui" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
   chmod +x "$BASE_DIR/$SERVER_NAME/launch.sh"
 
   # Updating the server name with version running

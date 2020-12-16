@@ -9,7 +9,7 @@ fi
 
 # Set variables to be used throughout script
 SERVER_NAME=$1
-WARNING_TIME=10
+WARNING_TIME=60
 
 # Stop the server if it's not already stopped and give players
 #   a chance to log out

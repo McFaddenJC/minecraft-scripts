@@ -1,0 +1,10 @@
+### System file to start minecraft on boot
+###   edit the path to match your system
+###   edit the user to match who you want to launch your server as
+### To create the symlink do the following as root:
+#    # cp /<path>/minecraft-scripts/minecraft /etc/init.d
+#    # cd /etc/rc5.d
+#    # ln -s ../init.d/minecraft S01minecraft
+#
+
+su -c '/<path>/minecraft-scripts/all-start.sh' <user>
