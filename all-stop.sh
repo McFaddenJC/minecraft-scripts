@@ -11,6 +11,8 @@ do
   $SCRIPTS_DIR/stop.sh $server &
 done < "$FILE"
 
+${SCRIPTS_DIR}/stop-web.sh
+
 echo ""
 echo "All servers sent the shutdown signal..."
 echo ""

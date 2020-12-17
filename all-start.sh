@@ -11,6 +11,8 @@ do
   $SCRIPTS_DIR/start.sh $server
 done < "$FILE"
 
+${SCRIPTS_DIR}/start-web.sh
+
 echo ""
 echo "All servers have been started"
 echo ""
