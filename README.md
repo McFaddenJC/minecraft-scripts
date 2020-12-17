@@ -46,8 +46,8 @@ $ screen -list
 # Attach to a listed screen. This allows you to send commands to the server.
 $ screen -x <screen_name>
 
-# Detach from current screen (allows it to keep running)
-$ CTRL-A + d
+# Detach from current screen by holding control, pressing a, releasing both, and then pressing d (allows it to keep running)
+$ CTRL-a + d
 ```
 
 #### Setting up CRON to keep your server updated
@@ -68,3 +68,27 @@ Now cron will check for a new version on the defined basis but will not do anyth
 * Download the new server .jar file
 * Update the server.properties file's "motd" and "gamemode"
 * Start the server back up
+
+
+#### Configuring Server Auto Loading
+Now that you have your own Minecraft &trade; servers up and running, you want them to start when you start up your server. This is accomplished by creating a startup script for your server. For the purpose of this tutorial, I will call my script "minecraft" to keep things simple.
+
+Using your editor of choice, create a file in /etc/init.d called "minecraft"
+
+```bash
+$ sudo vim /etc/init.d/minecraft
+```
+Add the following to your new file:
+```bash
+#!/bin/bash
+
+echo "Starting all minecraft servers"
+su - <your ssh username> -c "/<your install path>/minecraft-scripts/all-start.sh"
+```
+Now you need to assign your script to a runlevel. In this case, I have added the script to runlevel 5. To do this, simply create a symbolic link (symlink) like this:
+
+```bash
+$ cd /etc/rc5.d/
+$ sudo ln -s ../init.d/minecraft S01minecraft
+```
+That's all! From this point onward, any time you have to restart your server, your worlds will start automatically upon boot.
