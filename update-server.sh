@@ -19,7 +19,6 @@ GAME_MODE=$3
 JAVA_MEM="5" # Memory in GB that you wish to alot to the JVM to run the server
 # You can change MOTD to be any name prefix you want displayed from the server
 #   status page in the game's client under multiplayer
-MOTD="JC's"
 
 # Make sure SERVER_TYPE is valid
 if (("$SERVER_TYPE" != "snapshot" || "$SERVER_TYPE" != "release" )); then
@@ -67,7 +66,7 @@ if [ ! "$CURRENT_SERVER" == "$NEW_SERVER" ]; then
   chmod +x "$BASE_DIR/$SERVER_NAME/launch.sh"
 
   # Updating the server name with version running
-  sed -i "s|motd=.*|motd=$MOTD $NEW_SERVER $SERVER_TYPE $GAME_MODE server|g" "$BASE_DIR/$SERVER_NAME/server.properties"
+  #sed -i "s|motd=.*|motd=$MOTD $NEW_SERVER $SERVER_TYPE $GAME_MODE server|g" "$BASE_DIR/$SERVER_NAME/server.properties"
   sed -i "s|gamemode=.*|gamemode=$GAME_MODE|g" "$BASE_DIR/$SERVER_NAME/server.properties"
 
   # Start the world back up using the new version

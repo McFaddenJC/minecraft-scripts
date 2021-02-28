@@ -3,6 +3,15 @@
 #  Script to start up the BlueMap rendered from local worlds
 #
 
+# Display Useage
+#USAGE="Usage: $0"
+#if [ $# -lt 0 ]; then
+#  echo "Invalid number of arguments given"
+#  echo "$USAGE"
+#  echo ""
+#  exit 1
+#fi
+
 # Set scripts folder
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BASE_DIR=$( sed 's|/minecraft-scripts||g' <<< $SCRIPTS_DIR )
