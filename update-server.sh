@@ -62,7 +62,7 @@ if [ ! "$CURRENT_SERVER" == "$NEW_SERVER" ]; then
 
   # Create new launch.sh file
   echo "#!/bin/bash" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
-  echo "/data/1/java/bin/java -server -Xmx${JAVA_MEM}G -Xms${JAVA_MEM}G -jar minecraft_server.$NEW_SERVER.jar nogui" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
+  echo "/usr/bin/java -server -Xmx${JAVA_MEM}G -Xms${JAVA_MEM}G -jar minecraft_server.$NEW_SERVER.jar nogui" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
   chmod +x "$BASE_DIR/$SERVER_NAME/launch.sh"
 
   # Updating the server name with version running

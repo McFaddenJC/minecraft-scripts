@@ -16,5 +16,5 @@ WEB_DIR=$1
 # Change to the BlueMap web server directory
 cd /data/1/$WEB_DIR
 
-/data/1/java/bin/java -jar map.jar -r
+/usr/bin/java -jar map.jar -r
 

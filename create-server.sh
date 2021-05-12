@@ -89,7 +89,7 @@ else
 
   # Create new launch.sh file
   echo "#!/bin/bash" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
-  echo "/data/1/java/bin/java -server -Xmx${JAVA_MEM}G -Xms${JAVA_MEM}G -jar minecraft_server.$CURRENT_SERVER.jar nogui" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
+  echo "/usr/bin/java -server -Xmx${JAVA_MEM}G -Xms${JAVA_MEM}G -jar minecraft_server.$CURRENT_SERVER.jar nogui" >> "$BASE_DIR/$SERVER_NAME/launch.sh"
   chmod +x "$BASE_DIR/$SERVER_NAME/launch.sh"
 
   if [ ! -e "$BASE_DIR/$SERVER_NAME/eula.txt" ]; then
