@@ -1,15 +1,15 @@
 {
-  "Comment": "<Replace with your own message>",
+  "Comment": "ANY_MESSAGE",
   "Changes": [
     {
       "Action": "UPSERT",
       "ResourceRecordSet": {
-        "Name": "<your dns entry>.",
+        "Name": "R53_HOSTED_ZONE_NAME.",
         "Type": "A",
         "TTL": 300,
         "ResourceRecords": [
           {
-            "Value": "[value will be updated automatically]"
+            "Value": "INSTANCE_IP"
           }
         ]
       }
