@@ -29,7 +29,7 @@ if (("$SERVER_TYPE" != "snapshot" || "$SERVER_TYPE" != "release" )); then
 fi
 
 # Make sure GAME_MODE is valid
-if (( $GAME_MODE != "survival" || $GAME_MODE != "creative" || $GAME_MODE != "adventure" )); then
+if (( $GAME_MODE != "survival" || $GAME_MODE != "creative" || $GAME_MODE != "adventure" || $GAME_MODE != 'spectator' )); then
   echo "Inavlid gamemode"
   echo "$USAGE"
   echo ""

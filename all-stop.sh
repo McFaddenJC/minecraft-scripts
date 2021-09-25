@@ -4,7 +4,7 @@
 SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 FILE=$SCRIPTS_DIR/server-list.txt
 
-# Loop through the server names and start them up here
+# Loop through the server names and stop them up here
 while read -r line
 do
   server=$line
@@ -16,4 +16,3 @@ ${SCRIPTS_DIR}/stop-web.sh
 echo ""
 echo "All servers sent the shutdown signal..."
 echo ""
-
