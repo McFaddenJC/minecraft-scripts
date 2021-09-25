@@ -17,4 +17,3 @@ WEB_DIR=$1
 cd /data/1/$WEB_DIR
 
 /usr/bin/java -jar map.jar -r
-
