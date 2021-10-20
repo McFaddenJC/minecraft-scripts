@@ -4,7 +4,7 @@
 SERVER=$1
 
 # Command to list a player's inventory
-COMMAND="data get entity ${PlayerName} Inventory"
+# COMMAND="data get entity ${PlayerName} Inventory"
 
 # See if the screen is active and only proceed if it is
 if ! screen -list | grep -q "$SERVER"; then
@@ -20,6 +20,6 @@ else
     # Loop through player list and execute the inventory command
     for PlayerName in $PlayerList
     do
-        screen -p 0 -S $SERVER -X eval "stuff \"${COMMAND}\"\015"
+        screen -p 0 -S $SERVER -X eval "stuff \"data get entity $PlayerName Inventory\"\015"
     done
 fi
