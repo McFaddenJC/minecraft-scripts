@@ -3,9 +3,6 @@
 # Server to apply this to (passed in as a variable)
 SERVER=$1
 
-# Command to list a player's inventory
-# COMMAND="data get entity ${PlayerName} Inventory"
-
 # See if the screen is active and only proceed if it is
 if ! screen -list | grep -q "$SERVER"; then
     # Server is not running so don't look for inventory
