@@ -1,0 +1,45 @@
+# Monday through Friday Crew Server Start
+0 20 * * 1-5 /data/1/minecraft-scripts/start.sh crew1430
+
+# Saturday and Sunday Crew Server Start
+0 12 * * 6-7 /data/1/minecraft-scripts/start.sh crew1430
+
+# Monday through Thursday Crew Server Stop
+55 2 * * 1-5 /data/1/minecraft-scripts/goodnight.sh crew1430
+0 3 * * 1-5 /data/1/minecraft-scripts/stop.sh crew1430
+
+# Friday through Sunday Crew Server Stop
+55 3 * * 6-7 /data/1/minecraft-scripts/goodnight.sh crew1430
+0 4 * * 6-7 /data/1/minecraft-scripts/stop.sh crew1430
+
+# Enabled cron jobs for server updates
+1 * * * * /data/1/minecraft-scripts/update-server.sh release mc25003 spectator > /dev/null 2>&1
+#2 * * * * /data/1/minecraft-scripts/update-server.sh release creative creative > /dev/null 2>&1
+#3 * * * * /data/1/minecraft-scripts/update-server.sh release ff2 survival > /dev/null 2>&1
+#4 * * * * /data/1/minecraft-scripts/update-server.sh release jchc spectator > /dev/null 2>&1
+4 * * * * /data/1/minecraft-scripts/update-server.sh snapshot garion survival > /dev/null 2>&1
+5 * * * * /data/1/minecraft-scripts/update-server.sh release bbs creative > /dev/null 2>&1
+6 * * * * /data/1/minecraft-scripts/update-server.sh release crew1430 survival > /dev/null 2>&1
+
+# Disabled cron jobs for server updates
+#6 * * * * /data/1/minecraft-scripts/update-server.sh snapshot cnc survival > /dev/null 2>&1
+#7 * * * * /data/1/minecraft-scripts/update-server.sh release youtube survival > /dev/null 2>&1
+#8 * * * * /data/1/minecraft-scripts/update-server.sh release floating floating > /dev/null 2>&1
+
+2 2 * * * /data/1/minecraft-scripts/sync-to-s3.sh jcs-minecraft-backups mc25003 > /dev/null 2>&1
+3 2 * * * /data/1/minecraft-scripts/sync-to-s3.sh jcs-minecraft-backups bbs > /dev/null 2>&1
+4 2 * * * /data/1/minecraft-scripts/sync-to-s3.sh jcs-minecraft-backups crew1430 > /dev/null 2>&1
+
+# Enabled cron jobs to render worlds
+0 3 * * * /data/1/mc25003web/render.sh > /dev/null 2>&1
+0 5 * * * /data/1/crew1430web/render.sh > /dev/null 2>&1
+
+# Disabled cron jobs to render worlds
+#23 23 * * * /data/1/minecraft-scripts/render-world.sh jchcweb > /dev/null 2>&1
+#23 23 * * * /data/1/minecraft-scripts/render-world.sh creativeweb > /dev/null 2>&1
+#23 23 * * * /data/1/minecraft-scripts/render-world.sh floatingweb > /dev/null 2>&1
+#23 23 * * * /data/1/minecraft-scripts/render-world.sh youtubeweb > /dev/null 2>&1
+#23 23 * * * /data/1/minecraft-scripts/render-world.sh cncweb > /dev/null 2>&1
+
+# Babysitter cron job
+#* * * * * /data/1/minecraft-scripts/show-inventory.sh crew1430 > /dev/null 2>&1
