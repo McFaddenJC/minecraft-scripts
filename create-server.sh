@@ -21,6 +21,7 @@ DIFFICULTY="hard" # Set what difficulty you wish to play in
 PVP="true" # Set whether or not you wish to allow pvp on the server
 MAX_PLAYERS="10" # Set the number of players you want to cap the server at
 JAVA_MEM="3" # Memory in GB that you wish to alot to the JVM to run the server
+WHITELIST=true # True to use whitelist and false to ignore whitelist
 # You can change MOTD to be any name prefix you want displayed from the server
 #   status page in the game's client under multiplayer
 # Capture the MOTD
@@ -108,6 +109,7 @@ else
     sed -i "s/server-port=.*/server-port=$SERVER_PORT/g" "$BASE_DIR/$SERVER_NAME/server.properties"
     sed -i "s/max-players=.*/max-players=$MAX_PLAYERS/g" "$BASE_DIR/$SERVER_NAME/server.properties"
     sed -i "s/level-seed=.*//g" "$BASE_DIR/$SERVER_NAME/server.properties"
+    sed -i "s/white-list=.*/white-list=$WHITELIST/g" "$BASE_DIR/$SERVER_NAME/server.properties"
     echo "level-seed=$SERVER_SEED" >> $BASE_DIR/$SERVER_NAME/server.properties
     if [ ! -z "$MOTD" ]; then
       sed -i "s/motd=.*/motd=$MOTD/g" "$BASE_DIR/$SERVER_NAME/server.properties"
