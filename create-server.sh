@@ -17,15 +17,19 @@ SERVER_NAME=$2
 SERVER_PORT=$3
 GAME_MODE=$4
 SERVER_VERSION=$5
-DIFFICULTY="normal" # Set what difficulty you wish to play in
+DIFFICULTY="hard" # Set what difficulty you wish to play in
 PVP="true" # Set whether or not you wish to allow pvp on the server
 MAX_PLAYERS="10" # Set the number of players you want to cap the server at
-JAVA_MEM="5" # Memory in GB that you wish to alot to the JVM to run the server
+JAVA_MEM="3" # Memory in GB that you wish to alot to the JVM to run the server
 # You can change MOTD to be any name prefix you want displayed from the server
 #   status page in the game's client under multiplayer
 # Capture the MOTD
 echo "Enter short server description: "
 read MOTD
+
+# Capture server seed
+echo "Enter server seed: "
+read SERVER_SEED
 
 # Make sure SERVER_TYPE is valid
 if [ $SERVER_TYPE != "snapshot" || $SERVER_TYPE != "release" ]; then
@@ -103,6 +107,8 @@ else
     sed -i "s/pvp=.*/pvp=$PVP/g" "$BASE_DIR/$SERVER_NAME/server.properties"
     sed -i "s/server-port=.*/server-port=$SERVER_PORT/g" "$BASE_DIR/$SERVER_NAME/server.properties"
     sed -i "s/max-players=.*/max-players=$MAX_PLAYERS/g" "$BASE_DIR/$SERVER_NAME/server.properties"
+    sed -i "s/level-seed=.*//g" "$BASE_DIR/$SERVER_NAME/server.properties"
+    echo "level-seed=$SERVER_SEED" >> $BASE_DIR/$SERVER_NAME/server.properties
     if [ ! -z "$MOTD" ]; then
       sed -i "s/motd=.*/motd=$MOTD/g" "$BASE_DIR/$SERVER_NAME/server.properties"
     fi
