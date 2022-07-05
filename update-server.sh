@@ -16,7 +16,7 @@ BASE_DIR=$( sed 's|/minecraft-scripts||g' <<< $SCRIPTS_DIR )
 SERVER_TYPE=$1
 SERVER_NAME=$2
 GAME_MODE=$3
-JAVA_MEM="5" # Memory in GB that you wish to alot to the JVM to run the server
+JAVA_MEM="4" # Memory in GB that you wish to alot to the JVM to run the server
 # You can change MOTD to be any name prefix you want displayed from the server
 #   status page in the game's client under multiplayer
 
@@ -52,7 +52,7 @@ if [ ! "$CURRENT_SERVER" == "$NEW_SERVER" ]; then
   $SCRIPTS_DIR/stop.sh $SERVER_NAME
 
   # Back up the current world
-  $SCRIPTS_DIR/backup-server.sh $SERVER_NAME
+  $SCRIPTS_DIR/sync-to-s3.sh jcs-minecraft-backups $SERVER_NAME
 
   # Create the launch script using the latest release
   #   Remove the current launch script first

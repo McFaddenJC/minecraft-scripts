@@ -19,4 +19,4 @@ S3_BUCKET=$1
 SERVER_NAME=$2
 
 # Copy the contents of that server up to S3
-aws s3 sync ${BASE_DIR}/${SERVER_NAME} s3://${S3_BUCKET}/${SERVER_NAME}/ --exact-timestamps
+aws s3 sync ${BASE_DIR}/${SERVER_NAME}/ s3://${S3_BUCKET}/${SERVER_NAME}/ --exact-timestamps
